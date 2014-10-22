@@ -499,13 +499,6 @@ relationship. Relationships are processed using an object mapping as well.
  */
 - (Class)classForProperty:(NSString *)propertyName;
 
-/**
- Returns an auto-released object that can be used to apply this object mapping
- given a set of mappable data. For transient objects, this generally returns an
- instance of the objectClass. For Core Data backed persistent objects, mappableData
- will be inspected to search for primary key data to lookup existing object instances.
- */
-- (id)mappableObjectForData:(id)mappableData;
 
 // Deprecations
 + (id)mappingForClass:(Class)objectClass withBlock:(void (^)(RKObjectMapping *))block DEPRECATED_ATTRIBUTE;
@@ -555,6 +548,11 @@ relationship. Relationships are processed using an object mapping as well.
  @see defaultDateFormatters
  */
 + (void)addDefaultDateFormatter:(NSFormatter *)dateFormatter;
+
+
++ (void)setPreferredDateConverter:(NSDate *(^)(NSString *dateString)) dateConverterBlock;
+
++ (NSDate *(^)(NSString *dateString)) preferredDateConverter;
 
 /**
  Convenience method for quickly constructing a date formatter and adding it to the collection of default

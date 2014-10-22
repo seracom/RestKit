@@ -53,9 +53,11 @@ typedef enum {
     based mapping. Mappings can be added to the provider and retrieved by the [RKObjectMapping objectClass]
     that they target.
  */
-@interface RKObjectMappingProvider : NSObject {
-    NSMutableDictionary *mappingContexts;
-}
+@interface RKObjectMappingProvider : NSObject //{
+//    NSMutableDictionary *mappingContexts;
+//}
+
+@property (nonatomic, strong) NSMutableDictionary *mappingContexts;
 
 /**
  Creates and returns an autoreleased RKObjectMappingProvider instance.

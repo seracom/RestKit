@@ -43,7 +43,7 @@
 {
     self = [super init];
     if (self) {
-        mappingContexts = [NSMutableDictionary new];
+        self.mappingContexts = [NSMutableDictionary new];
         [self initializeContext:RKObjectMappingProviderContextObjectsByKeyPath withValue:[NSMutableDictionary dictionary]];
         [self initializeContext:RKObjectMappingProviderContextObjectsByType withValue:[NSMutableArray array]];
         [self initializeContext:RKObjectMappingProviderContextObjectsByResourcePathPattern withValue:[RKOrderedDictionary dictionary]];
@@ -61,7 +61,7 @@
 
 - (void)dealloc
 {
-    [mappingContexts release];
+    [self.mappingContexts release];
     [super dealloc];
 }
 
@@ -190,13 +190,13 @@
 - (id)valueForContext:(RKObjectMappingProviderContext)context
 {
     NSNumber *contextNumber = [NSNumber numberWithInteger:context];
-    return [mappingContexts objectForKey:contextNumber];
+    return [self.mappingContexts objectForKey:contextNumber];
 }
 
 - (void)setValue:(id)value forContext:(RKObjectMappingProviderContext)context
 {
     NSNumber *contextNumber = [NSNumber numberWithInteger:context];
-    [mappingContexts setObject:value forKey:contextNumber];
+    [self.mappingContexts setObject:value forKey:contextNumber];
 }
 
 - (void)assertStorageForContext:(RKObjectMappingProviderContext)context isKindOfClass:(Class)theClass
@@ -208,7 +208,7 @@
 - (void)setMapping:(RKObjectMappingDefinition *)mapping context:(RKObjectMappingProviderContext)context
 {
     NSNumber *contextNumber = [NSNumber numberWithInteger:context];
-    [mappingContexts setObject:mapping forKey:contextNumber];
+    [self.mappingContexts setObject:mapping forKey:contextNumber];
 }
 
 - (RKObjectMappingDefinition *)mappingForContext:(RKObjectMappingProviderContext)context

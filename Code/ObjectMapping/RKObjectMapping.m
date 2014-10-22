@@ -399,12 +399,20 @@ NSString * const RKObjectMappingNestingAttributeKeyName = @"<RK_NESTING_ATTRIBUT
     return _dateFormatters ? _dateFormatters : [RKObjectMapping defaultDateFormatters];
 }
 
+
+- (void)setPreferredDateFormatter:(NSFormatter *)preferredDateFormatter
+{
+	_preferredDateFormatter = preferredDateFormatter;
+}
+
+
 @end
 
 /////////////////////////////////////////////////////////////////////////////
 
 static NSMutableArray *defaultDateFormatters = nil;
 static NSDateFormatter *preferredDateFormatter = nil;
+static NSDate *(^preferredDateConverter)(NSString *);
 
 @implementation RKObjectMapping (DateAndTimeFormatting)
 
@@ -476,5 +484,16 @@ static NSDateFormatter *preferredDateFormatter = nil;
     [preferredDateFormatter release];
     preferredDateFormatter = dateFormatter;
 }
+
++ (void)setPreferredDateConverter:(NSDate *(^)(NSString *dateString)) dateConverterBlock
+{
+	preferredDateConverter = [dateConverterBlock copy];
+}
+
++ (NSDate *(^)(NSString *))preferredDateConverter
+{
+	return preferredDateConverter;
+}
+
 
 @end

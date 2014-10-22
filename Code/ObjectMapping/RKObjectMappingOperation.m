@@ -119,6 +119,14 @@ BOOL RKObjectIsValueEqualToValue(id sourceValue, id destinationValue) {
     [super dealloc];
 }
 
+- (NSDate *)parseDateFromString:(NSString *)string forKeyPath:(NSString *) keyPath
+{
+	NSDate *date = [RKObjectMapping preferredDateConverter](string);
+	
+	return date;
+}
+
+
 - (NSDate *)parseDateFromString:(NSString *)string
 {
     RKLogTrace(@"Transforming string value '%@' to NSDate...", string);
@@ -168,7 +176,8 @@ BOOL RKObjectIsValueEqualToValue(id sourceValue, id destinationValue) {
     if ([sourceType isSubclassOfClass:[NSString class]]) {
         if ([destinationType isSubclassOfClass:[NSDate class]]) {
             // String -> Date
-            return [self parseDateFromString:(NSString *)value];
+//            return [self parseDateFromString:(NSString *)value];
+			return [self parseDateFromString:(NSString *)value forKeyPath:keyPath];
         } else if ([destinationType isSubclassOfClass:[NSURL class]]) {
             // String -> URL
             return [NSURL URLWithString:(NSString *)value];
