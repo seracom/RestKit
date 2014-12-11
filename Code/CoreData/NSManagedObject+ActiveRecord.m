@@ -770,8 +770,14 @@ RK_FIX_CATEGORY_BUG(NSManagedObject_ActiveRecord)
 
 - (BOOL)deleteInContext:(NSManagedObjectContext *)context
 {
-    [context deleteObject:self];
-    return YES;
+	NSManagedObjectContext *myMOC = [self managedObjectContext];
+	if (!myMOC) {
+		return NO;
+	}
+	
+	[myMOC deleteObject:self];
+	
+	return YES;
 }
 
 - (BOOL)deleteEntity
