@@ -42,8 +42,14 @@ RK_FIX_CATEGORY_BUG(NSManagedObjectContext_ActiveRecord)
 
 + (NSManagedObjectContext *)contextForCurrentThread
 {
-    NSAssert([RKManagedObjectStore defaultObjectStore], @"[RKManagedObjectStore defaultObjectStore] cannot be nil");
-    return [[RKManagedObjectStore defaultObjectStore] managedObjectContextForCurrentThread];
+	NSAssert([RKManagedObjectStore defaultObjectStore], @"[RKManagedObjectStore defaultObjectStore] cannot be nil");
+	
+    NSManagedObjectContext *oldMOC = [[RKManagedObjectStore defaultObjectStore] managedObjectContextForCurrentThread];
+	
+    NSManagedObjectContext *newMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+	[newMOC setPersistentStoreCoordinator:[oldMOC persistentStoreCoordinator]];
+	
+	return newMOC;
 }
 
 @end
